@@ -1,0 +1,37 @@
+
+service: lbdasendnotification
+
+plugins:
+  - serverless-offline
+  - serverless-stage-manager
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: python3.8
+  lambdaHashingVersion: 20201221
+
+custom:
+  stages:
+    - dev
+    - staging
+    - prod
+
+functions:
+  sendnotification:
+    handler: handler.sendnotification
+    events:
+      - http:
+          path: send_notification
+          method: post
+          cors:
+          origin: '*'
+          headers:
+            - Content-Type
+            - X-Amz-Date
+            - Authorization
+            - X-Api-Key
+            - X-Amz-Security-Token
+            - X-Amz-User-Agent
+          allowCredentials: false
