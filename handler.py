@@ -29,12 +29,10 @@ data_response = {}
 #envio de notificação com components
 #Link: https://docs.blip.ai/#sending-a-notification-active-message a segunda req dessa sessão
 def send_notification_components(URLBLIP ,KEYBLIP, namespace, template_name, identity, components):
-
     id = str(uuid.uuid4())
     id = "send-notification-api-" + id
     print("Monta Body")
-    payBlip =  json.dumps({
-            
+    payBlip =  json.dumps({    
     "id":id,
     "to":identity,
     "type":"application/json",
@@ -49,7 +47,6 @@ def send_notification_components(URLBLIP ,KEYBLIP, namespace, template_name, ide
         "components":components
 
     }}
-  
     }).encode('utf-8')
     print(payBlip)
     print("Monta Requisição")
@@ -63,22 +60,21 @@ def send_notification_components(URLBLIP ,KEYBLIP, namespace, template_name, ide
 #requisição que registra o evento com dados do envio
 #Link: https://docs.blip.ai/#create-an-event
 def create_event (URLBLIP, KEYBLIP):
-
     print("Evento Criado")
     id = str(uuid.uuid4())
     id = "send-notification-api-" + id
     print("Monta Body")
     payBlip =  json.dumps({
-    "id": id,
-    "to": "postmaster@analytics.msging.net",
-    "method": "set",
-    "type": "application/vnd.iris.eventTrack+json",
-    "uri": "/event-track",
-    "resource": {
-        "category": "notifications",
-        "action": "send"
-  }
-}).encode('utf-8')
+        "id": id,
+        "to": "postmaster@analytics.msging.net",
+        "method": "set",
+        "type": "application/vnd.iris.eventTrack+json",
+        "uri": "/event-track",
+        "resource": {
+            "category": "notifications",
+            "action": "send"
+    }
+    }).encode('utf-8')
     print("Monta Requisição")
     BlipReq = request.Request(URLBLIP[0],data = payBlip, headers={'content-type': 'application/json', 'Authorization': KEYBLIP})
     print("Faz Requisição")
@@ -92,34 +88,28 @@ def verification_phone (phone, URLBLIP, KEYBLIP):
     name = "Erro"
     id = str(uuid.uuid4())
     id = "send-notification-api-" + id
-    payBlip =  json.dumps({
-        
-  "id": id,
-  "to": "postmaster@wa.gw.msging.net",
-  "method": "get",
-  "uri": "lime://wa.gw.msging.net/accounts/"+phone
-  
-}).encode('utf-8')
+    payBlip =  json.dumps({ 
+    "id": id,
+    "to": "postmaster@wa.gw.msging.net",
+    "method": "get",
+    "uri": "lime://wa.gw.msging.net/accounts/"+phone
+    }).encode('utf-8')
     BlipReq = request.Request(URLBLIP[0],data = payBlip, headers={'content-type': 'application/json', 'Authorization': KEYBLIP})
     BlipResp = request.urlopen(BlipReq).read().decode()
     data = json.loads(BlipResp)
     status = data['status']
-
     if ("fullName" in BlipResp):
         name = data ['resource']['fullName']
-
     return BlipResp
 
 #requsição que definifinitavemente envia a notificação para o cliente
 #Mudar para modelo com váriavel
 #Link: https://docs.blip.ai/#sending-a-notification-active-message a segunda req dessa sessão
 def send_notification(URLBLIP ,KEYBLIP, namespace, template_name, identity):
-
     id = str(uuid.uuid4())
     id = "send-notification-api-" + id
     print("Monta Body")
-    payBlip =  json.dumps({
-            
+    payBlip =  json.dumps({      
     "id":id,
     "to":identity,
     "type":"application/json",
@@ -133,7 +123,6 @@ def send_notification(URLBLIP ,KEYBLIP, namespace, template_name, identity):
         "policy":"deterministic"
 
     }}}
-  
     }).encode('utf-8')
     print("Monta Requisição")
     BlipReq = request.Request(URLBLIP[1],data = payBlip, headers={'content-type': 'application/json', 'Authorization': KEYBLIP})
@@ -145,56 +134,47 @@ def send_notification(URLBLIP ,KEYBLIP, namespace, template_name, identity):
 #Requisição que altera o bloco do cliente
 #Link da Doc:https://docs.blip.ai/#change-user-state
 def change_state(URLBLIP, KEYBLIP, identity, flow_id, state_id):
-
     uri = "/contexts/"+identity+"/stateid@"+flow_id 
     id = str(uuid.uuid4())
     id = "send-notification-api-" + id
-    payBlip =  json.dumps({
-        
-  "id": id,
-  "to": "postmaster@msging.net",
-  "method": "set",
-  "uri": uri,
-  "type": "text/plain",
-  "resource": state_id
-  
-}).encode('utf-8')
+    payBlip =  json.dumps({   
+    "id": id,
+    "to": "postmaster@msging.net",
+    "method": "set",
+    "uri": uri,
+    "type": "text/plain",
+    "resource": state_id
+    }).encode('utf-8')
     BlipReq = request.Request(URLBLIP[0],data = payBlip, headers={'content-type': 'application/json', 'Authorization': KEYBLIP})
     BlipResp = request.urlopen(BlipReq).read().decode()
     data = json.loads(BlipResp)
     status = data['status']
-
     return BlipResp
 
 #Requisição que altera o bot que o cliente se encontra
 #Atualmente não tem documentação atualizada
 def change_bot(URLBLIP, KEYBLIP, identity, id_bot):
-
     uri = "/contexts/"+identity+"/master-state"
     id = str(uuid.uuid4())
     id = "send-notification-api-" + id
     id_bot = id_bot + "@msging.net"
-    payBlip =  json.dumps({
-        
-"id": id,
-"to": "postmaster@msging.net",
-"method": "set",
-"uri": uri,
-"type": "text/plain",
-"resource": id_bot
-  
-}).encode('utf-8')
+    payBlip =  json.dumps({     
+        "id": id,
+        "to": "postmaster@msging.net",
+        "method": "set",
+        "uri": uri,
+        "type": "text/plain",
+        "resource": id_bot
+    }).encode('utf-8')
     BlipReq = request.Request(URLBLIP[0],data = payBlip, headers={'content-type': 'application/json', 'Authorization': KEYBLIP})
     BlipResp = request.urlopen(BlipReq).read().decode()
     data = json.loads(BlipResp)
     status = data['status']
-
     return BlipResp
 
 #requisição que cria ou atualiza o contato do cliente dentro do blip
 #Link Doc: https://docs.blip.ai/#update-a-contact
 def cria_att_ctt (URLBLIP, KEYBLIP, identity, name, jsonExtras):
-
     id = str(uuid.uuid4())
     id = "send-notification-api-" + id
     payBlip =  json.dumps({
@@ -212,11 +192,9 @@ def cria_att_ctt (URLBLIP, KEYBLIP, identity, name, jsonExtras):
     BlipReq = request.Request(URLBLIP[0],data = payBlip, headers={'content-type': 'application/json', 'Authorization': KEYBLIP})
     BlipResp = request.urlopen(BlipReq).read().decode()
     try:
-            BlipResp = request.urlopen(BlipReq).read().decode()
-
-            print('Lead no Blip aceito')
-
-            return BlipResp
+        BlipResp = request.urlopen(BlipReq).read().decode()
+        print('Lead no Blip aceito')
+        return BlipResp
 
     except HTTPError as e:
             
@@ -258,7 +236,7 @@ def sendnotification(event, context):
         KEYBLIP   = headers['Authorization']
         namespace = headers['namespace']
 
-        print(namespace)
+        # print(namespace)
 
         #identifica caso authorization não exista
         if(KEYBLIP == "" or KEYBLIP == None):
@@ -270,26 +248,26 @@ def sendnotification(event, context):
 
         #Ajustar Telefone Para Verificação do Número
         adjustment_phone = regex_num(phone=phone)
-        print("Ajustar Telefone Para Verificação do Número")
+        # print("Ajustar Telefone Para Verificação do Número")
 
         #Verifica o Número na API do WhatsApp
         response_verification = verification_phone(phone = adjustment_phone, URLBLIP = URLBLIP, KEYBLIP = KEYBLIP)
-        print("Verifica o Número na API do WhatsApp")
+        # print("Verifica o Número na API do WhatsApp")
 
         #Carrega Informações retornadas no formato de JSON
         data_verification = json.loads(response_verification)
-        print("Carrega Informações retornadas no formato de JSON")
+        # print("Carrega Informações retornadas no formato de JSON")
 
         #Identifica o Identity do número no whatsapp       
         identity = data_verification ['resource']['alternativeAccount']
-        print(content)
+        # print(content)
 
         if content == None:
             #Enviar Notificação Sem Variaveis
             response_notification = send_notification(URLBLIP = URLBLIP,KEYBLIP = KEYBLIP,namespace = namespace, template_name = template_name, identity = identity)
-            print("Sem Content")
+            # print("Sem Content")
         else:
-            print(content)
+            # print(content)
             #Enviar Notificação Sem Variaveis
             response_notification = send_notification_components(URLBLIP = URLBLIP,KEYBLIP = KEYBLIP,namespace = namespace, template_name = template_name, identity = identity, components = content)
 
@@ -298,7 +276,7 @@ def sendnotification(event, context):
         
         #Coloca o usuário dentro do bot desejado, e no bloco selecionado anteriomente
         response_bot_change = change_bot(URLBLIP = URLBLIP, KEYBLIP = KEYBLIP, identity = identity, id_bot = id_bot)
-        print("Coloca o usuário dentro do bot desejado, e no bloco selecionado anteriomente")
+        # print("Coloca o usuário dentro do bot desejado, e no bloco selecionado anteriomente")
 
         #atuaiza dados do cliente de acordo com as informações passadas
         response_ctt = cria_att_ctt (URLBLIP = URLBLIP, KEYBLIP = KEYBLIP,identity = identity, name = name, jsonExtras = jsonExtras)
@@ -317,7 +295,7 @@ def sendnotification(event, context):
             "response_ctt":response_ctt
         }
         response = {
-            "statusCode": 400,
+            "statusCode": 200,
             "body": data_response
         }
         return response
@@ -325,6 +303,7 @@ def sendnotification(event, context):
     except Exception as e: 
         msgError = json.dumps({"message": "Falha ao executar API: " + str(e)})
         conteudoNotificacao = 'Falha - Envio de Lead(s) genérico para o BLIP da solução Bots2U ' + str(e) + json.dumps(data)
+        print(conteudoNotificacao)
         response = {
             "statusCode": 400,
             "body": msgError
