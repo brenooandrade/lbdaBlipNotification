@@ -174,7 +174,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/lbdasendnotification/prod/1656169790795-2022-06-25T15:09:50.795Z/lbdasendnotification.zip"
+                "S3Key": "serverless/lbdasendnotification/prod/1656795539863-2022-07-02T20:58:59.863Z/lbdasendnotification.zip"
               },
               "Handler": "handler.sendnotification",
               "Runtime": "python3.8",
@@ -192,14 +192,14 @@
               "SendnotificationLogGroup"
             ]
           },
-          "SendnotificationLambdaVersionbDPoBHFhRkjKlLs16OGPpe2GlwO1eGiuj5NvBbCE": {
+          "SendnotificationLambdaVersionBdeKzKkkWs40i6K7lETKGyd4Mzie2gteYgcqSg5J0": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "SendnotificationLambdaFunction"
               },
-              "CodeSha256": "VYlsEmb4yXoKD1usC5LMVaWROmxvLSY1zwDe9ZgynbA="
+              "CodeSha256": "AcjnyDNZu+eEX9U322bmqe+VDJySAqB51LBWTJSiWcA="
             }
           },
           "ApiGatewayRestApi": {
@@ -275,7 +275,7 @@
               "SendnotificationLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1656169785654": {
+          "ApiGatewayDeployment1656795518291": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -337,7 +337,7 @@
           "SendnotificationLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "SendnotificationLambdaVersionbDPoBHFhRkjKlLs16OGPpe2GlwO1eGiuj5NvBbCE"
+              "Ref": "SendnotificationLambdaVersionBdeKzKkkWs40i6K7lETKGyd4Mzie2gteYgcqSg5J0"
             },
             "Export": {
               "Name": "sls-lbdasendnotification-prod-SendnotificationLambdaFunctionQualifiedArn"
@@ -496,7 +496,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "SendnotificationLambdaVersionbDPoBHFhRkjKlLs16OGPpe2GlwO1eGiuj5NvBbCE"
+        "versionLogicalId": "SendnotificationLambdaVersionBdeKzKkkWs40i6K7lETKGyd4Mzie2gteYgcqSg5J0"
       }
     },
     "configValidationMode": "warn",
@@ -524,7 +524,7 @@
     "artifact": "D:\\Breno\\Projetos\\lbdaSendNotification\\.serverless\\lbdasendnotification.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/lbdasendnotification/prod/1656169790795-2022-06-25T15:09:50.795Z",
+    "artifactDirectoryName": "serverless/lbdasendnotification/prod/1656795539863-2022-07-02T20:58:59.863Z",
     "artifact": "lbdasendnotification.zip"
   }
 }
