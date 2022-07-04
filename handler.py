@@ -296,7 +296,7 @@ def sendnotification(event, context):
         }
         response = {
             "statusCode": 200,
-            "body": data_response
+            "body": json.dumps(data_response)
         }
         return response
     
